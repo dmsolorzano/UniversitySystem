@@ -40,7 +40,11 @@ public class LogIn{
         		System.out.println("ButtonPressed");
         		//createFrame();
         		//frame.setVisible(false);
-        		newFrame(frame);
+        		
+        		//newFrame(frame);
+        		frame.getContentPane().removeAll();
+        		new HomePage(frame);
+
         	// Create a method named "createFrame()", and set up an new frame there
         	// Call createFrame()
     		}

@@ -2,7 +2,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 // import java.util.AWTException;
-public class HomePage extends JFrame{
+public class HomePage{
 	JPanel headerPanel; // Flowlayout
 	JPanel titlePanel; // Flowlayout
 	JPanel centralPanel; // GridBagConstraints
@@ -12,11 +12,11 @@ public class HomePage extends JFrame{
 	manageButton, searchButton, teachButton;
 	JLabel uniLabel, nameLabel, idLabel, pageTitle;
 	GridBagConstraints gc;
-	public HomePage(){
-		setTitle("University Registration System");
-		setSize(1000,500);
-		setLayout(new BorderLayout()); // Frame Layout
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public HomePage(JFrame frame){
+		frame.setTitle("University Registration System");
+		frame.setSize(1000,500);
+		frame.setLayout(new BorderLayout()); // Frame Layout
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/* Buttons */
 		backButton = new JButton("BACK");
 		homeButton = new JButton("HOME");
@@ -64,10 +64,10 @@ public class HomePage extends JFrame{
 		GridBagConstraints.CENTER,1,1,10,10,10,10);
 		centralPanel.add(teachButton, gc);
 		/* Putting all panels in frame */
-		this.add("North", northPanel);
-		this.add("Center", centralPanel);
+		frame.add("North", northPanel);
+		frame.add("Center", centralPanel);
 		// pack();
-		setVisible(true);
+		frame.setVisible(true);
 	}
 
 	public GridBagConstraints addComponent(int gridx, int gridy, int
@@ -88,6 +88,7 @@ public class HomePage extends JFrame{
 	}
 
 	public static void main(String[] args){
-		HomePage homepage = new HomePage();
+		JFrame frame = new JFrame();
+		HomePage homepage = new HomePage(frame);
 	}
 }
