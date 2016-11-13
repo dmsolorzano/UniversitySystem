@@ -2,15 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class HomePage extends SystemGUI{
+public class ManPage extends SystemGUI{
 
 	JFrame frame;
 	JPanel northPanel, centralPanel; // GridBagConstraints
-	JButton regButton, checkButton, manageButton, searchButton, teachButton;
+	
+	//JButton regButton, checkButton, manageButton, searchButton, teachButton;
 	GridBagConstraints gc;
 
-	public HomePage(JFrame frame){
-		this.frame = frame;					 //Passing the frame over
+	public ManPage(JFrame frame){
+		this.frame = frame;
 		frame.setTitle("University Registration System");
 		frame.setSize(1000,500);
 		frame.setLayout(new BorderLayout()); // Frame Layout
@@ -26,7 +27,7 @@ public class HomePage extends SystemGUI{
 		/* GUI Sections */
 
 		/* North Panel*/
-		northPanel = createHeaderPanel("Home Page");
+		northPanel = createHeaderPanel("Management");
 		/* Central Panel */
 		centralPanel = new JPanel(new GridBagLayout());
 		
@@ -87,28 +88,32 @@ public class HomePage extends SystemGUI{
 		-----------------------------------------------
 	*/	
 
-	public class ButtonListener implements ActionListener{
+	private class ButtonListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e){
-			frame.getContentPane().removeAll();
 			if(e.getSource() == regButton){
 				System.out.println("Registration Button Pressed");
+				frame.getContentPane().removeAll();
         		new RegPage(frame);
 			}
 			else if(e.getSource() == checkButton){
 				System.out.println("Check Status Button Pressed");
+				frame.getContentPane().removeAll();
         		new CheckPage(frame);
 			}
 			else if(e.getSource() == searchButton){
 				System.out.println("Search Button Pressed");
+				frame.getContentPane().removeAll();
         		new SearchPage(frame);
 			}
 			else if(e.getSource() == teachButton){
 				System.out.println("Classes I Teach Button Pressed");
+				frame.getContentPane().removeAll();
         		new ProfPage(frame);
 			}
 			else if(e.getSource() == manageButton){
 				System.out.println("Management Button Pressed");
+				frame.getContentPane().removeAll();
         		new ManPage(frame);
 			}
 		}
@@ -124,6 +129,6 @@ public class HomePage extends SystemGUI{
 
 	public static void main(String[] args){
 		JFrame frame = new JFrame();
-		HomePage homepage = new HomePage(frame);
+		ManPage mypage = new ManPage(frame);
 	}
 }
