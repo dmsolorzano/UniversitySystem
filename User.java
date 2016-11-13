@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 /** An abstract class which represents types of users
  * @author Darren Solorzano
  * @author Reynaldo Martinez
@@ -49,5 +52,12 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	protected Connection accessDatabase() throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con=DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306","root","cwsanto--1");
+		return con;
 	}
 }
