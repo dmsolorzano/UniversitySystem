@@ -1,7 +1,2 @@
-/Admin.class
-/Course.class
-/Faculty.class
-/Student.class
-/User.class
-/test.class
-/Java2MySQL.class
+.classpath
+*.class
