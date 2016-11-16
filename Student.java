@@ -10,7 +10,4 @@ public class Student extends User{
 		super(id, name, user, pass);
 		// TODO Auto-generated constructor stub
 	}
-
-	
-
 }

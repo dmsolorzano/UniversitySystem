@@ -68,7 +68,7 @@ public class Admin extends User{
 	 * and places into the /Students folder.
 	 * @return Returns a reference to an Object file of either:Student, Faculty or Null type
 	 * */
-	public Object createAccount() throws Exception{	
+	public Object createAccount() throws Exception{	//We could maybe separate this into two methods(createStudent(), createFaculty())
 		Statement stmt = super.accessDatabase().createStatement();
 		Student nwStudent = null;
 		Faculty nwFaculty = null;

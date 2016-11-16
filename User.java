@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 
 /** An abstract class which represents types of users
  * @author Darren Solorzano
@@ -57,7 +58,23 @@ public class User {
 	protected Connection accessDatabase() throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con=DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306","root","cwsanto--1");
+				"jdbc:mysql://localhost:3306","root","5jxaif72haq");
 		return con;
+	}
+	/** Method that will create the initial database with basic tables and pre-set values
+	 * */
+	public void createDatabase() throws Exception{
+		Statement stmt = accessDatabase().createStatement();
+		stmt.execute("create database university;");
+		stmt.execute("use university;");
+		stmt.execute("create table course(courseName VARCHAR(40), id int not null, startTime VARCHAR(10), "
+				+ "endTime VARCHAR(10), days VARCHAR(10), startDate DATE, endDate DATE);");
+		stmt.execute("create table student(id int not null, firstName VARCHAR(20), lastName VARCHAR(20));");
+		stmt.execute("create table faculty(id int not null, firstName VARCHAR(20), lastName VARCHAR(20));");
+		
+		stmt.execute("insert into student values (808080, 'Darren', 'Solorzano');");// Test statements
+		stmt.execute("insert into student values (808081, 'Daniel', 'Quonones');");// Test statements
+		stmt.execute("insert into student values (808082, 'John', 'Smith');");// Test statements
+		stmt.execute("insert into student values (808083, 'Mac', 'book');");// Test statements
 	}
 }
