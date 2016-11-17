@@ -5,24 +5,28 @@ import java.sql.*;
  * @author Darren Solorzano
  * @author Reynaldo Martinez
  * @author Chris Santos
- * @version 1.3
+ * @version 1.4
  * */
 public class Admin extends User{
-
 	static Scanner scn = new Scanner(System.in);
 	
 	public Admin(int id, String name, String user, String pass) {
 		super(id, name, user, pass);
 	}
 	
-	/**Method to return the course catalog
+	/** Checks is student has completed all courses required to graduate
+	 * @returns true if student is ready to graduate, false otherwise
 	 * */
-	public void showCourseCatalog(){
-		
+	public boolean checkGraduation(Student student){
+		if(student.coursesCompleted.containsValue(false))
+				return false;
+		return true;
 	}
+	
 	/**Create Course method - creates a new Course object instance and stores the information into the database
+	 * @return returns a Course Object file that has been created
 	 * */
-	public Object createCourse() throws Exception{
+	public Object createCourse(Student s) throws Exception{
 		Statement stmt = super.accessDatabase().createStatement();
 		Course course = null;
 		int courseID = 0;
@@ -44,9 +48,11 @@ public class Admin extends User{
 		days = scn.nextLine();
 		
 		stmt.execute("use university;");
-		stmt.execute("insert into courses values ('"+courseName+"', "+courseID+", "+sDate+
-				", "+eDate+", '"+sTime+"', '"+eTime+"', '"+days+"');");
-		return course= new Course(courseName, sDate, courseID); //Here
+		stmt.execute("insert into courses values ('"+courseID+"', "+courseName+", "+sTime+
+				", "+eTime+", '"+days+"', '"+sDate+"', '"+eDate+"');");
+		course = new Course(courseName, sDate, courseID); //Set course value
+		s.coursesCompleted.put(course, false); //Add course to list of uncompleted course;
+		return course;
 	}
 	
 	/**Remove Course method - will search for a course with the name to be deleted and remove it

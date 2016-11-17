@@ -53,11 +53,11 @@ public class User {
 	protected Connection accessDatabase() throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con=DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306","root","password");
+				"jdbc:mysql://localhost:3306","root","5jxaif72haq");
 		return con;
 	}
 	/** Method that will create the initial database with basic tables and pre-set values
-	 * @see accessDatabase()
+	 * @see accessDatabase
 	 * */
 	public void createDatabase() throws Exception{
 		Statement stmt = accessDatabase().createStatement();
