@@ -10,7 +10,7 @@ public class SystemGUI{
 		//static int counter;				//Keeps track of frame
 	}
 
-	/*
+	/**
 		Manages constraints used by subclasses that implement 
 		GridBagLayouts.  
 		@author Reynaldo Martinez Jr
@@ -48,7 +48,7 @@ public class SystemGUI{
 
 	}
 
-	/*
+	/**
 		Creates the default header for most frames in the system  
 		@author Reynaldo Martinez Jr
 		@version 1.0

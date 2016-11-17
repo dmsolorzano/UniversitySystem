@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.sql.Date;
 import java.util.*;
 /** The course class which represents types of courses and their relative fields
  * @author Darren Solorzano
@@ -16,13 +16,13 @@ public class Course {
 
 	/** Course constructor
 	 * @param courseName holds the name of the course
-	 * @param date holds the date which class is held
+	 * @param startDate holds the date which class is held
 	 * @param cRN holds the course reference number(CRN)
 	 * */
-	public Course(String courseName, String date, int cRN) {
+	public Course(String courseName, String startDate, int cRN) {//We need to fix these course parameters
 		super();
 		this.courseName = courseName;
-		this.date = date;
+		this.date = startDate;
 		this.cRN = cRN;
 	}
 

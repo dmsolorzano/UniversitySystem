@@ -5,34 +5,37 @@ import java.sql.*;
  * @author Darren Solorzano
  * @author Reynaldo Martinez
  * @author Chris Santos
- * @version 1.3
+ * @version 1.4
  * */
 public class Admin extends User{
-
 	static Scanner scn = new Scanner(System.in);
 	
 	public Admin(int id, String name, String user, String pass) {
 		super(id, name, user, pass);
 	}
 	
-	/**Create Course method - creates a new txt file in the courses folder which will represent a new course
-	 * @param name Name of the course to be printed onto the txt file
-	 * @param crn2 Course Reference Number(CRN) to be printed into the txt file
+	/** Checks is student has completed all courses required to graduate
+	 * @returns true if student is ready to graduate, false otherwise
 	 * */
-	public void createCourse() throws Exception{
+	public boolean checkGraduation(Student student){
+		if(student.coursesCompleted.containsValue(false))
+				return false;
+		return true;
+	}
+	
+	/**Create Course method - creates a new Course object instance and stores the information into the database
+	 * @return returns a Course Object file that has been created
+	 * */
+	public Object createCourse(Student s) throws Exception{
 		Statement stmt = super.accessDatabase().createStatement();
-		String courseName = "";
-		String courseID = "";
-		String sDate = "";
-		String eDate = "";
-		String sTime = "";
-		String eTime = "";
-		String days = "";
+		Course course = null;
+		int courseID = 0;
+		String courseName, sDate, eDate, sTime, eTime, days= "";
 		
 		System.out.print("Enter the name of the course: ");
 		courseName = scn.nextLine();
 		System.out.print("Enter the course ID: ");
-		courseID = scn.nextLine();
+		courseID = scn.nextInt();
 		System.out.print("Enter the start date(yyyymmdd): ");
 		sDate = scn.nextLine();
 		System.out.print("Enter the end date(yyyymmdd): ");
@@ -45,13 +48,14 @@ public class Admin extends User{
 		days = scn.nextLine();
 		
 		stmt.execute("use university;");
-		stmt.execute("insert into courses values ('"+courseName+"', "+courseID+", "+sDate+
-				", "+eDate+", '"+sTime+"', '"+eTime+"', '"+days+"');");
+		stmt.execute("insert into courses values ('"+courseID+"', "+courseName+", "+sTime+
+				", "+eTime+", '"+days+"', '"+sDate+"', '"+eDate+"');");
+		course = new Course(courseName, sDate, courseID); //Set course value
+		s.coursesCompleted.put(course, false); //Add course to list of uncompleted course;
+		return course;
 	}
 	
-	/**Remove Course method - will search for a line in the Courses.txt file and then remove the line
-	 * @param courseToDrop method will search for this string and the crnToDrop parameter together to remove
-	 * @param crnToDrop method will search for this string and the courseToDrop parameter together to remove
+	/**Remove Course method - will search for a course with the name to be deleted and remove it
 	 * */
 	public void removeCourse() throws Exception{
 		Statement stmt = super.accessDatabase().createStatement();
@@ -64,18 +68,15 @@ public class Admin extends User{
 		stmt.execute("delete from courses where Title='"+courseName+"';");
 	}
 	
-	/**Create account method - creates a new txt file based on student or faculty access 
-	 * and places into the /Students folder.
+	/**Create account method - creates a new Account Object instance and stores the information into the database
 	 * @return Returns a reference to an Object file of either:Student, Faculty or Null type
+	 * @see accessDatabase()
 	 * */
-	public Object createAccount() throws Exception{	
+	public Object createAccount() throws Exception{	//We could maybe separate this into two methods(createStudent(), createFaculty())
 		Statement stmt = super.accessDatabase().createStatement();
 		Student nwStudent = null;
 		Faculty nwFaculty = null;
-		String ans = "";
-		String id = "";
-		String fName = "";
-		String lName = "";
+		String ans, id, fName, lName = "";
 		
 		System.out.print("Are you a Student or Faculty? ");
 		ans = scn.nextLine();
@@ -99,6 +100,6 @@ public class Admin extends User{
 			nwFaculty = new Faculty(Integer.valueOf(id), fName+" "+lName, "", "");
 			return nwFaculty;
 		}
-		return null;
+		return null; 
 	}
 }
