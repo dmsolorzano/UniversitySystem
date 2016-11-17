@@ -7,7 +7,7 @@ public class ManPage extends SystemGUI{
 	JFrame frame;
 	JPanel northPanel, centralPanel; // GridBagConstraints
 	
-	//JButton regButton, checkButton, manageButton, searchButton, teachButton;
+	JButton regButton, checkButton, manageButton, searchButton, teachButton;
 	GridBagConstraints gc;
 
 	public ManPage(JFrame frame){
