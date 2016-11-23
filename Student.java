@@ -8,10 +8,10 @@ import java.util.*;
  * */
 public class Student extends User{
 	Map<Course, Boolean> coursesCompleted = new HashMap<>();
+	LinkedList<Course> courses = new LinkedList<Course>();
 
 	public Student(int id, String name, String user, String pass) {
 		super(id, name, user, pass);
-		// TODO Auto-generated constructor stub
 	}
 	/** Method to change a course's completion status to true
 	 * @param c The course in catalog that will be removed;

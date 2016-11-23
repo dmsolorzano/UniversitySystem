@@ -57,15 +57,25 @@ public class Admin extends User{
 	
 	/**Remove Course method - will search for a course with the name to be deleted and remove it
 	 * */
-	public void removeCourse() throws Exception{
+	public boolean removeCourse(Course c, Student s) throws Exception{
 		Statement stmt = super.accessDatabase().createStatement();
-		String courseName = "";
+		boolean test = false;
 		
-		System.out.print("Name of course to be deleted: ");
-		courseName = scn.nextLine();
-		
-		stmt.execute("use university;");
-		stmt.execute("delete from courses where Title='"+courseName+"';");
+		try {
+			try {
+				if(s.coursesCompleted.containsKey(c)){
+					s.coursesCompleted.remove(c);
+					System.out.println("Course has been completed");
+				}
+			} catch (Exception e){
+			}
+			stmt.execute("use university;");
+			stmt.execute("delete from courses where Title='"+c.courseName+"';");
+			test = true;
+		} catch (Exception e){
+			return test;
+		}
+		return test;
 	}
 	
 	/**Create account method - creates a new Account Object instance and stores the information into the database
