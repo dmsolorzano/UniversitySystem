@@ -29,31 +29,37 @@ public class test{
 	/** Imports course information into array of objects from the course file
 	 * @throws Exception
 	 * @see accessDatabase*/
-	public static void importCourses() throws Exception{ //TODO finish
+	public static boolean importCourses() throws Exception{
 		User user = new User(0, null, null, null);
-		user.accessDatabase();
-		Statement stmt = user.accessDatabase().createStatement();
-		// if you only need a few columns, specify them by name instead of using "*"
-		String query = "SELECT * FROM course";
+		boolean test = false;
+		try {
+			user.accessDatabase();
+			Statement stmt = user.accessDatabase().createStatement();
+			// if you only need a few columns, specify them by name instead of using "*"
+			String query = "SELECT * FROM course";
 
-		stmt.execute("use university;");
-		// execute the query, and get a java resultset
-		ResultSet rs = stmt.executeQuery(query); //IMPORTANT LINE OF CODE!!!!!
+			stmt.execute("use university;");
+			// execute the query, and get a java resultset
+			ResultSet rs = stmt.executeQuery(query); //IMPORTANT LINE OF CODE!!!!!
 
-		// iterate through the java resultset
-		int i =0;
-		while (rs.next()){//Genius piece of code - this will be extremely handy when we need to import and export information from the database
-			int id = rs.getInt("id");
-			String name = rs.getString("courseName");
-			Date startDate = rs.getDate("startDate");
-			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String date = formatter.format(startDate);
-			// print the results
-			//System.out.format("%s, %s, %s,\n", id, name, startDate);
-			Course course = new Course(name, date, id);
-			courses[i]=course;
-			i++;
+			// iterate through the java resultset
+			int i =0;
+			while (rs.next()){//Genius piece of code - this will be extremely handy when we need to import and export information from the database
+				int id = rs.getInt("id");
+				String name = rs.getString("courseName");
+				Date startDate = rs.getDate("startDate");
+				Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String date = formatter.format(startDate);
+				// print the results
+				//System.out.format("%s, %s, %s,\n", id, name, startDate);
+				Course course = new Course(name, date, id);
+				courses[i]=course;
+				i++;
+			}
+			test = true;
+		} catch (Exception e){
+			return test;
 		}
+		return test;
 	}
 }
-
