@@ -4,7 +4,7 @@ import java.util.*;
  * @author Darren Solorzano
  * @author Reynaldo Martinez
  * @author Chris Santos
- * @version 1.3
+ * @version 1.4
  * */
 public class Student extends User{
 	Map<Course, Boolean> coursesCompleted = new HashMap<>();
