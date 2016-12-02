@@ -1,19 +1,25 @@
-import java.util.Scanner;
+import java.util.*;
 import java.sql.*;
 
 /** The administrator class which represents users with administrative access
  * @author Darren Solorzano
  * @author Reynaldo Martinez
  * @author Chris Santos
- * @version 1.4
+ * @version 1.5
  * */
 public class Admin extends User{
+	public Map<String, String> logInInfo = new HashMap<>();
 	static Scanner scn = new Scanner(System.in);
 	
-	public Admin(int id, String name, String user, String pass) {
-		super(id, name, user, pass);
+	protected Admin(int id, String name, String u, String p) {
+		super(id, name, "admin", "admin");
 	}
-	
+	public void accessLogIn() throws Exception {
+		Statement stmt = accessDatabase().createStatement();
+		stmt.execute("USE University;");
+		String query= "SELECT password, username FROM student;";
+		ResultSet rs = stmt.executeQuery(query);
+	}
 	/** Checks is student has completed all courses required to graduate
 	 * @returns true if student is ready to graduate, false otherwise
 	 * */
@@ -27,7 +33,7 @@ public class Admin extends User{
 	 * @return returns a Course Object file that has been created
 	 * */
 	public Object createCourse(Student s) throws Exception{
-		Statement stmt = super.accessDatabase().createStatement();
+		Statement stmt = accessDatabase().createStatement();
 		Course course = null;
 		int courseID = 0;
 		String courseName, sDate, eDate, sTime, eTime, days= "";
@@ -58,7 +64,7 @@ public class Admin extends User{
 	/**Remove Course method - will search for a course with the name to be deleted and remove it
 	 * */
 	public boolean removeCourse(Course c, Student s) throws Exception{
-		Statement stmt = super.accessDatabase().createStatement();
+		Statement stmt = accessDatabase().createStatement();
 		boolean test = false;
 		
 		try {
@@ -83,7 +89,7 @@ public class Admin extends User{
 	 * @see accessDatabase()
 	 * */
 	public Object createAccount() throws Exception{	//We could maybe separate this into two methods(createStudent(), createFaculty())
-		Statement stmt = super.accessDatabase().createStatement();
+		Statement stmt = accessDatabase().createStatement();
 		Student nwStudent = null;
 		Faculty nwFaculty = null;
 		String ans, id, fName, lName = "";
@@ -111,5 +117,55 @@ public class Admin extends User{
 			return nwFaculty;
 		}
 		return null; 
+	}
+	/** Method to create connection to the MySQL database
+	 * @returns returns the Connection that was created.
+	 * */
+	public Connection accessDatabase() throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con=DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306","root","root_3478");
+				//"jdbc:mysql://172.19.154.137:3306","username","password");
+		return con;
+	}
+	/** Method that will create the initial database with basic tables and pre-set values
+	 * @see accessDatabase
+	 * */
+	public boolean createDatabase() throws Exception{
+		boolean test = true;
+		try {
+			Statement stmt = accessDatabase().createStatement();
+			stmt.execute("drop database university;"); /**REMOVE THIS LINE. THIS LINE IS FOR TESTING ONLY!!!*/
+			stmt.execute("create database university;");
+			stmt.execute("use university;");
+			stmt.execute("create table course(id int not null primary key, courseName VARCHAR(40), startTime VARCHAR(10), "
+					+ "endTime VARCHAR(10), days VARCHAR(10), startDate DATE, endDate DATE);");
+			stmt.execute("create table student(id int not null primary key, firstName VARCHAR(20), lastName VARCHAR(20), "
+					+ "username VARCHAR(20), password VARCHAR(20));");
+			stmt.execute("create table faculty(id int not null primary key, firstName VARCHAR(20), lastName VARCHAR(20),"
+					+ "username VARCHAR(20), password VARCHAR(20));");
+			
+			// Dummy course values
+			stmt.execute("insert into course values(805362, 'CS 2301', '3:00', '4:00', 'MTWF', '20160312', '20170914');");
+			stmt.execute("insert into course values(804262, 'Math 301', '12:00', '2:00', 'MRF', '20160312', '20170914');");
+			stmt.execute("insert into course values(804342, 'Science 231', '5:00', '10:00', 'TWRF', '20160312', '20170914');");
+			stmt.execute("insert into course values(809362, 'History 401', '3:00', '4:00', 'RF', '20160312', '20170914');");
+			stmt.execute("insert into course values(824362, 'Knitting 230', '3:00', '4:00', 'MTWF', '20160312', '20170914');");
+
+			// Dummy student values
+			stmt.execute("insert into student values (808080, 'Darren', 'Solor','dsolor', 'secret');");// Test statements
+			stmt.execute("insert into student values (808081, 'Daniel', 'Quinones','dquino', 'password');");// Test statements
+			stmt.execute("insert into student values (808082, 'John', 'Smith', 'jsmith', 'password2');");// Test statements
+			stmt.execute("insert into student values (808083, 'Mac', 'book', 'mbook', 'garbagePass');");// Test statements
+			
+			// Dummy faculty values
+			stmt.execute("insert into faculty values (808084, 'Derek', 'Solor','dsolor', 'secret');");// Test statements
+			stmt.execute("insert into faculty values (808085, 'John', 'Quinones','dquino', 'password');");// Test statements
+			stmt.execute("insert into faculty values (808086, 'Steve', 'Smith', 'jsmith', 'password2');");// Test statements
+			stmt.execute("insert into faculty values (808087, 'Gibson', 'book', 'mbook', 'garbagePass');");// Test statements
+		} catch (Exception e){
+			test = false;
+		}
+		return test;
 	}
 }

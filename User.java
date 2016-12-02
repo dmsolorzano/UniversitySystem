@@ -1,12 +1,14 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 
 /** An abstract class which represents types of users
  * @author Darren Solorzano
  * @author Reynaldo Martinez
  * @author Chris Santos
- * @version 1.4
+ * @version 1.5
  * */
 public class User {
 	
@@ -14,6 +16,7 @@ public class User {
 	private String name;
 	private String username;
 	private String password;
+	private static Course[] courses;
 
 	public User(int id, String name, String user, String pass) {
 		this.setId(id);
@@ -47,53 +50,41 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	/** Method to create connection to the MySQL database
-	 * @returns returns the Connection that was created.
-	 * */
-	public Connection accessDatabase() throws Exception {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con=DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306","root","root_3478");
-				//"jdbc:mysql://172.19.154.137:3306","username","password");
-		return con;
-	}
-	/** Method that will create the initial database with basic tables and pre-set values
-	 * @see accessDatabase
-	 * */
-	public boolean createDatabase() throws Exception{
-		boolean test = true;
+	
+	/** Imports course information into array of objects from the course file
+	 * @throws Exception
+	 * @see accessDatabase*/
+	public static boolean importCourses() throws Exception{
+		Admin temp = new Admin(0011, "john", "admin", "admin");
+		courses = new Course[100];
+		boolean test = false;
 		try {
-			Statement stmt = accessDatabase().createStatement();
-			stmt.execute("drop database university;"); /**REMOVE THIS LINE. THIS LINE IS FOR TESTING ONLY!!!*/
-			stmt.execute("create database university;");
-			stmt.execute("use university;");
-			stmt.execute("create table course(id int not null primary key, courseName VARCHAR(40), startTime VARCHAR(10), "
-					+ "endTime VARCHAR(10), days VARCHAR(10), startDate DATE, endDate DATE);");
-			stmt.execute("create table student(id int not null primary key, firstName VARCHAR(20), lastName VARCHAR(20), "
-					+ "username VARCHAR(20), password VARCHAR(20));");
-			stmt.execute("create table faculty(id int not null primary key, firstName VARCHAR(20), lastName VARCHAR(20),"
-					+ "username VARCHAR(20), password VARCHAR(20));");
-			
-			// Dummy course values
-			stmt.execute("insert into course values(805362, 'CS 2301', '3:00', '4:00', 'MTWF', '20160312', '20170914');");
-			stmt.execute("insert into course values(804262, 'Math 301', '12:00', '2:00', 'MRF', '20160312', '20170914');");
-			stmt.execute("insert into course values(804342, 'Science 231', '5:00', '10:00', 'TWRF', '20160312', '20170914');");
-			stmt.execute("insert into course values(809362, 'History 401', '3:00', '4:00', 'RF', '20160312', '20170914');");
-			stmt.execute("insert into course values(824362, 'Knitting 230', '3:00', '4:00', 'MTWF', '20160312', '20170914');");
+			temp.accessDatabase();
+			Statement stmt = temp.accessDatabase().createStatement();
+			// if you only need a few columns, specify them by name instead of using "*"
+			String query = "SELECT * FROM course";
 
-			// Dummy student values
-			stmt.execute("insert into student values (808080, 'Darren', 'Solor','dsolor', 'secret');");// Test statements
-			stmt.execute("insert into student values (808081, 'Daniel', 'Quinones','dquino', 'password');");// Test statements
-			stmt.execute("insert into student values (808082, 'John', 'Smith', 'jsmith', 'password2');");// Test statements
-			stmt.execute("insert into student values (808083, 'Mac', 'book', 'mbook', 'garbagePass');");// Test statements
-			
-			// Dummy faculty values
-			stmt.execute("insert into faculty values (808084, 'Derek', 'Solor','dsolor', 'secret');");// Test statements
-			stmt.execute("insert into faculty values (808085, 'John', 'Quinones','dquino', 'password');");// Test statements
-			stmt.execute("insert into faculty values (808086, 'Steve', 'Smith', 'jsmith', 'password2');");// Test statements
-			stmt.execute("insert into faculty values (808087, 'Gibson', 'book', 'mbook', 'garbagePass');");// Test statements
+			stmt.execute("use university;");
+			// execute the query, and get a java resultset
+			ResultSet rs = stmt.executeQuery(query); //IMPORTANT LINE OF CODE!!!!!
+
+			// iterate through the java resultset
+			int i =0;
+			while (rs.next()){//Genius piece of code - this will be extremely handy when we need to import and export information from the database
+				int id = rs.getInt("id");
+				String name = rs.getString("courseName");
+				Date startDate = rs.getDate("startDate");
+				Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String date = formatter.format(startDate);
+				// print the results
+				//System.out.format("%s, %s, %s,\n", id, name, startDate);
+				Course course = new Course(name, date, id);
+				courses[i]=course;
+				i++;
+			}
+			test = true;
 		} catch (Exception e){
-			test = false;
+			return test;
 		}
 		return test;
 	}
