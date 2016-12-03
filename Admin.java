@@ -5,30 +5,66 @@ import java.sql.*;
  * @author Darren Solorzano
  * @author Reynaldo Martinez
  * @author Chris Santos
- * @version 1.5
+ * @version 1.6
  * */
-public class Admin extends User{
-	public Map<String, String> logInInfo = new HashMap<>();
+public class Admin extends User {
+	//public Map<String, String> logInInfo = new HashMap<>();
 	static Scanner scn = new Scanner(System.in);
 	
 	protected Admin(int id, String name, String u, String p) {
 		super(id, name, "admin", "admin");
 	}
-	public void accessLogIn() throws Exception {
+	
+	/** Checks if the provided credentials for the Username is correct.
+	 * @returns true if Username is correct, false otherwise
+	 * */
+	public boolean accessUsername(String info) throws Exception {
+		String found = "";
+		
 		Statement stmt = accessDatabase().createStatement();
-		stmt.execute("USE University;");
-		String query= "SELECT password, username FROM student;";
+		String query = "select username from student where username = '"+info+"';";
 		ResultSet rs = stmt.executeQuery(query);
+
+		if (rs.next()){
+			found = rs.getString(1);
+		}
+		
+		if (found.equals(info)){
+			return true;
+		} else {
+			return false;
+		}
 	}
+	/** Checks if the provided credentials for the Password is correct.
+	 * @returns true if Password is correct, false otherwise
+	 * */
+	public boolean accessPassword(String info) throws Exception {
+		String found = "";
+		
+		Statement stmt = accessDatabase().createStatement();
+		String query = "select password from student where password = '"+info+"';";
+		ResultSet rs = stmt.executeQuery(query);
+
+		if (rs.next()){
+			found = rs.getString(1);
+		}
+		
+		if (found.equals(info)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/** Checks is student has completed all courses required to graduate
 	 * @returns true if student is ready to graduate, false otherwise
 	 * */
 	public boolean checkGraduation(Student student){
-		if(student.coursesCompleted.containsValue(false))
+		if(student.coursesCompleted.containsValue(false)){
 				return false;
+		}
 		return true;
 	}
-	
 	/**Create Course method - creates a new Course object instance and stores the information into the database
 	 * @return returns a Course Object file that has been created
 	 * */
@@ -60,8 +96,8 @@ public class Admin extends User{
 		s.coursesCompleted.put(course, false); //Add course to list of uncompleted course;
 		return course;
 	}
-	
 	/**Remove Course method - will search for a course with the name to be deleted and remove it
+	 * @returns true or false if the course has been removed from the database.
 	 * */
 	public boolean removeCourse(Course c, Student s) throws Exception{
 		Statement stmt = accessDatabase().createStatement();
@@ -126,6 +162,8 @@ public class Admin extends User{
 		Connection con=DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306","root","root_3478");
 				//"jdbc:mysql://172.19.154.137:3306","username","password");
+		Statement stmt = con.createStatement();
+		stmt.execute("use university");
 		return con;
 	}
 	/** Method that will create the initial database with basic tables and pre-set values

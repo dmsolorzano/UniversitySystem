@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
  * @author Darren Solorzano
  * @author Reynaldo Martinez
  * @author Chris Santos
- * @version 1.5
+ * @version 1.6
  * */
 public class User {
 	
@@ -17,12 +17,16 @@ public class User {
 	private String username;
 	private String password;
 	private static Course[] courses;
+	private static Admin adm = new Admin(00001, "John Smith", "adminU", "adminP");
 
 	public User(int id, String name, String user, String pass) {
 		this.setId(id);
 		this.setName(name);
 		this.username = user;
 		this.password = pass;
+	}
+	protected  static Admin getInstance(){
+		return adm;
 	}
 
 	/*Modifiers and Accessors for User class*/
@@ -51,13 +55,25 @@ public class User {
 		this.password = password;
 	}
 	
+	public boolean logIn() throws Exception {
+		if (adm.accessUsername(username) == true){
+			if (adm.accessPassword(password) == true){
+				return true;
+			} else {
+				System.out.println("Incorrect Password. Try Again.");
+				return false;
+			}
+		} else {
+			System.out.println("Incorrect Username. Try Again.");
+			return false;
+		}
+	}
 	/** Imports course information into array of objects from the course file
 	 * @throws Exception
 	 * @see accessDatabase*/
-	public static boolean importCourses() throws Exception{
+	public static Course[] exportCourses() throws Exception{
 		Admin temp = new Admin(0011, "john", "admin", "admin");
 		courses = new Course[100];
-		boolean test = false;
 		try {
 			temp.accessDatabase();
 			Statement stmt = temp.accessDatabase().createStatement();
@@ -82,10 +98,7 @@ public class User {
 				courses[i]=course;
 				i++;
 			}
-			test = true;
-		} catch (Exception e){
-			return test;
-		}
-		return test;
+		} catch (Exception e){}
+		return courses;
 	}
 }
