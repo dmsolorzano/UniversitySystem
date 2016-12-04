@@ -17,7 +17,7 @@ public class User {
 	private String username;
 	private String password;
 	private static Course[] courses;
-	private static Admin adm = new Admin(00001, "John Smith", "adminU", "adminP");
+	private static Admin adm;
 
 	public User(int id, String name, String user, String pass) {
 		this.setId(id);
@@ -25,6 +25,9 @@ public class User {
 		this.username = user;
 		this.password = pass;
 	}
+	
+	private void Admin(){}	// Singleton constructor for Admin
+	
 	protected  static Admin getInstance(){
 		return adm;
 	}
@@ -72,7 +75,7 @@ public class User {
 	 * @throws Exception
 	 * @see accessDatabase*/
 	public static Course[] exportCourses() throws Exception{
-		Admin temp = new Admin(0011, "john", "admin", "admin");
+		Admin temp = Admin.getInstance();
 		courses = new Course[100];
 		try {
 			temp.accessDatabase();

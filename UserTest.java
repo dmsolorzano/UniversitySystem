@@ -8,7 +8,7 @@ public class UserTest {
 	@Test
 	public void CreateDatabase_Test() throws Exception {
 		/** Object of User created to test the createDatabase method **/
-		User u = new User(90, "name", "name", "name");
+		//User u = new User(90, "name", "name", "name");
 		
 		/** Should return true if the database was created. **/
 		//assertTrue(u.createDatabase());

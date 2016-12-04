@@ -8,11 +8,10 @@ import java.sql.*;
  * @version 1.6
  * */
 public class Admin extends User {
-	//public Map<String, String> logInInfo = new HashMap<>();
 	static Scanner scn = new Scanner(System.in);
 	
-	protected Admin(int id, String name, String u, String p) {
-		super(id, name, "admin", "admin");
+	private Admin(int id, String name, String u, String p) {
+		super(000001, "Senior Admin", "admin", "admin");
 	}
 	
 	/** Checks if the provided credentials for the Username is correct.
@@ -55,16 +54,7 @@ public class Admin extends User {
 			return false;
 		}
 	}
-	
-	/** Checks is student has completed all courses required to graduate
-	 * @returns true if student is ready to graduate, false otherwise
-	 * */
-	public boolean checkGraduation(Student student){
-		if(student.coursesCompleted.containsValue(false)){
-				return false;
-		}
-		return true;
-	}
+
 	/**Create Course method - creates a new Course object instance and stores the information into the database
 	 * @return returns a Course Object file that has been created
 	 * */

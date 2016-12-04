@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -61,7 +60,4 @@ public class LogIn extends SystemGUI{
 	public static void main(String[] args){
 		LogIn logPage = new LogIn();
 	}
-
-
-
 }
