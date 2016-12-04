@@ -1,6 +1,3 @@
-import java.io.*;
-import java.sql.Date;
-import java.util.*;
 /** The course class which represents types of courses and their relative fields
  * @author Darren Solorzano
  * @author Reynaldo Martinez

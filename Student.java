@@ -22,4 +22,13 @@ public class Student extends User{
 			System.out.println("Course has been completed");
 		}
 	}
+	/** Checks is student has completed all courses required to graduate
+	 * @returns true if student is ready to graduate, false otherwise
+	 * */
+	public boolean checkGraduation(Student student){
+		if(student.coursesCompleted.containsValue(false)){
+				return false;
+		}
+		return true;
+	}
 }
