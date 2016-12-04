@@ -7,14 +7,14 @@ import java.util.*;
  * @version 1.4
  * */
 public class Student extends User{
-	Map<Course, Boolean> coursesCompleted = new HashMap<>();
-	LinkedList<Course> courses = new LinkedList<Course>();
+	protected Map<Course, Boolean> coursesCompleted = new HashMap<>();
+	protected LinkedList<Course> courses = new LinkedList<Course>();
 
 	public Student(int id, String name, String user, String pass) {
 		super(id, name, user, pass);
 	}
 	/** Method to change a course's completion status to true
-	 * @param c The course in catalog that will be removed;
+	 * @param c The course in catalog that will be removed
 	 * */
 	public void completeCourse(Course c){
 		if(coursesCompleted.containsKey(c)){

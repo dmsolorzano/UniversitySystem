@@ -17,8 +17,8 @@ public class User {
 	private String username;
 	private String password;
 	private static Course[] courses;
-	private static Admin adm;
-
+	private static Admin Senior = new Admin(000001, "Senior Admin", "adminU", "adminP");
+	
 	public User(int id, String name, String user, String pass) {
 		this.setId(id);
 		this.setName(name);
@@ -28,8 +28,9 @@ public class User {
 	
 	private void Admin(){}	// Singleton constructor for Admin
 	
-	protected  static Admin getInstance(){
-		return adm;
+	protected  static Admin getInstance() throws Exception {
+		Senior.createDatabase();
+		return Senior;
 	}
 
 	/*Modifiers and Accessors for User class*/
@@ -59,8 +60,9 @@ public class User {
 	}
 	
 	public boolean logIn() throws Exception {
-		if (adm.accessUsername(username) == true){
-			if (adm.accessPassword(password) == true){
+		if (Senior.accessUsername(username) == true){
+			if (Senior.accessPassword(password) == true){
+				System.out.println("Logged In.");
 				return true;
 			} else {
 				System.out.println("Incorrect Password. Try Again.");

@@ -10,8 +10,8 @@ import java.sql.*;
 public class Admin extends User {
 	static Scanner scn = new Scanner(System.in);
 	
-	private Admin(int id, String name, String u, String p) {
-		super(000001, "Senior Admin", "admin", "admin");
+	protected  Admin(int id, String name, String u, String p) {
+		super(id, name, u, p);
 	}
 	
 	/** Checks if the provided credentials for the Username is correct.
@@ -117,7 +117,9 @@ public class Admin extends User {
 	public Object createAccount() throws Exception{	//We could maybe separate this into two methods(createStudent(), createFaculty())
 		Statement stmt = accessDatabase().createStatement();
 		Student nwStudent = null;
-		Faculty nwFaculty = null;
+		
+		//Faculty nwFaculty = null;
+		
 		String ans, id, fName, lName = "";
 		
 		System.out.print("Are you a Student or Faculty? ");
@@ -139,8 +141,10 @@ public class Admin extends User {
 			lName = scn.nextLine();
 			stmt.execute("use university");
 			stmt.execute("insert into faculty values ("+id+", '"+fName+"', '"+lName+"');");
-			nwFaculty = new Faculty(Integer.valueOf(id), fName+" "+lName, "", "");
-			return nwFaculty;
+			
+			//nwFaculty = new Faculty(Integer.valueOf(id), fName+" "+lName, "", "");
+			//return nwFaculty;
+		
 		}
 		return null; 
 	}
@@ -170,8 +174,9 @@ public class Admin extends User {
 					+ "endTime VARCHAR(10), days VARCHAR(10), startDate DATE, endDate DATE);");
 			stmt.execute("create table student(id int not null primary key, firstName VARCHAR(20), lastName VARCHAR(20), "
 					+ "username VARCHAR(20), password VARCHAR(20));");
-			stmt.execute("create table faculty(id int not null primary key, firstName VARCHAR(20), lastName VARCHAR(20),"
-					+ "username VARCHAR(20), password VARCHAR(20));");
+			
+			/*stmt.execute("create table faculty(id int not null primary key, firstName VARCHAR(20), lastName VARCHAR(20),"
+					+ "username VARCHAR(20), password VARCHAR(20));");*/
 			
 			// Dummy course values
 			stmt.execute("insert into course values(805362, 'CS 2301', '3:00', '4:00', 'MTWF', '20160312', '20170914');");
@@ -179,7 +184,7 @@ public class Admin extends User {
 			stmt.execute("insert into course values(804342, 'Science 231', '5:00', '10:00', 'TWRF', '20160312', '20170914');");
 			stmt.execute("insert into course values(809362, 'History 401', '3:00', '4:00', 'RF', '20160312', '20170914');");
 			stmt.execute("insert into course values(824362, 'Knitting 230', '3:00', '4:00', 'MTWF', '20160312', '20170914');");
-
+			
 			// Dummy student values
 			stmt.execute("insert into student values (808080, 'Darren', 'Solor','dsolor', 'secret');");// Test statements
 			stmt.execute("insert into student values (808081, 'Daniel', 'Quinones','dquino', 'password');");// Test statements
@@ -187,10 +192,14 @@ public class Admin extends User {
 			stmt.execute("insert into student values (808083, 'Mac', 'book', 'mbook', 'garbagePass');");// Test statements
 			
 			// Dummy faculty values
-			stmt.execute("insert into faculty values (808084, 'Derek', 'Solor','dsolor', 'secret');");// Test statements
-			stmt.execute("insert into faculty values (808085, 'John', 'Quinones','dquino', 'password');");// Test statements
-			stmt.execute("insert into faculty values (808086, 'Steve', 'Smith', 'jsmith', 'password2');");// Test statements
-			stmt.execute("insert into faculty values (808087, 'Gibson', 'book', 'mbook', 'garbagePass');");// Test statements
+			//stmt.execute("insert into faculty values (808084, 'Derek', 'Solor','dsolor', 'secret');");// Test statements
+			//stmt.execute("insert into faculty values (808085, 'John', 'Quinones','dquino', 'password');");// Test statements
+			//stmt.execute("insert into faculty values (808086, 'Steve', 'Smith', 'jsmith', 'password2');");// Test statements
+			//stmt.execute("insert into faculty values (808087, 'Gibson', 'book', 'mbook', 'garbagePass');");// Test statements
+			
+			// Dummy admin values
+			stmt.execute("insert into student values (000002, 'Lower', 'Admin', 'adminU', 'adminP');");// Test statements
+			
 		} catch (Exception e){
 			test = false;
 		}
