@@ -1,6 +1,10 @@
 package GUI;
 
 import javax.swing.*;
+
+import system.Admin;
+import system.Student;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -11,6 +15,11 @@ public class HomePage extends SystemGUI{
 	JButton regButton, checkButton, manageButton, searchButton, teachButton;
 	GridBagConstraints gc;
 
+	public HomePage(Student s, Admin a){ //Constructor to access student and Admin
+		s = new Student(s.getId(), s.getName(), s.getUsername(), a.getPassword());
+		a = Admin.getInstance();
+	}
+	
 	public HomePage(JFrame frame){
 		super();
 		this.frame = frame;	//Passing a frame over to this class

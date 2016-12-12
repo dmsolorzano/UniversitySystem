@@ -10,6 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Time;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -25,6 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import GUI.HomePage.ButtonListener;
+import system.*;
 
 public class ManPage extends SystemGUI{
 
@@ -37,22 +42,63 @@ public class ManPage extends SystemGUI{
 	ButtonGroup bGroup;
 	GridBagConstraints gc;
 	JTable searchTable;
+	static User user = new User();
+	//Course [] courses = user.exportCourses();
+	Course[] courses;
+    {
+        try {
+           courses = User.exportCourses();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+	
 	
 	/*
 	 * Arrays for preliminary tests with JTable, two examples
 	 */
 	String[] columnTitles = new String[]{"Course Number","Course Name","CRN","Credits",
 			"Days Offered","Hours","Teacher"};
-	Object[][] dataTest = new Object[][]{
+	Object[][] dataTest = new Object[6][7];/*{ //create some kind of loop to enter the data from courses
 		{3331, "Advanced Object Oriented", "27428", 3, "TR", 12.00, "Omar Baddredin"},
 		{4246, "Analytical Mechanics II", "24381", 3, "TR", 01.30, "Ramon Ravelo"},
-	};
+		{courses[0].getCourseName(),courses[1].getCourseName(), "27428", 3, "TR", 12.00, courses[4].getCourseName()},
+		{}
+	
+	};*/
 	
 	/*
 	 * Column type definition for JTable
 	 */
+	public void instantiate(){
+		for(int i = 0; courses[i]!=null; i++){
+			dataTest[i][0] = courses[i].getcRN();
+			dataTest[i][1] = courses[i].getCourseName();
+			dataTest[i][2] = courses[i].getcRN();
+			dataTest[i][3] = courses[i].getCourseName();
+			dataTest[i][4] = courses[i].getCourseName();
+			String date = courses[i].getDate();
+			dataTest[i][5] = date;
+			dataTest[i][6] = courses[i].getCourseName();
+			//dataTest[i][6] = courses[3].getCourseName();
+		//	System.out.println("Tiem: "+courses[i].getTime());
+				
+
+		}
+		// Print test
+		for(int j =0; j < dataTest.length; j++){
+			for(int k =0; k< dataTest.length; k++){
+				System.out.println(dataTest[j][k]);
+			}
+		}
+	}
+	public ManPage(){
+		//instantiate();
+	}
+	
+	
 	final Class[] columnClasses = new Class[]{
-			String.class, String.class, String.class, Integer.class,
+	String.class, String.class, String.class, String.class,
 			String.class, String.class, String.class
 	};
 	
@@ -65,6 +111,8 @@ public class ManPage extends SystemGUI{
 	
 
 	public ManPage(JFrame frame){
+		
+		instantiate();
 		this.frame = frame;
 		frame.setTitle("University Registration System");
 		frame.setSize(1000,500);
@@ -313,7 +361,11 @@ public class ManPage extends SystemGUI{
 		-----------------------------------------------
 	*/
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
+		
+		ManPage test = new ManPage();
+		//test.courses = User.exportCourses();
+		//test.instantiate();
 		SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

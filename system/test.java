@@ -14,7 +14,7 @@ public class test{
 			Student s = new Student(0, null, "adminU", "adminP");
 			Course c = new Course(null, null, 0);
 			// TODO
-			System.out.println("test");;
+			temp.createDatabase();
 			
 		} catch (Exception e){
 			System.out.println(e);  // Will catch and print any exception you had

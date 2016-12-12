@@ -18,8 +18,9 @@ public class User {
 	private String name;
 	private String username;
 	private String password;
-	private static Course[] courses;
+	public static Course[] courses; //Array of courses
 	private static Admin Senior = new Admin(00001, "Senior Admin", "adminU", "adminP");
+	Student s1;
 
 	public User(int id, String name, String user, String pass) {
 		this.setId(id);
@@ -28,6 +29,10 @@ public class User {
 		this.password = pass;
 	}
 	
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+
 	private void Admin(){}	// Singleton constructor for Admin
 	
 	public static Admin getInstance(){ //changed to public, don't know if it has to be protected to work
@@ -35,6 +40,9 @@ public class User {
 	}
 
 	/*Modifiers and Accessors for User class*/
+	public Course[] returnCourses(){
+		return courses;
+	}
 	public int getId() {
 		return id;
 	}
@@ -73,7 +81,22 @@ public class User {
 			return false;
 		}
 	}
-	
+	/** Method to add a course to an individual student's Transcript
+	 * */
+	public void addCourseToTranscript(Course course){
+		if(!s1.courses.contains(course)){
+			s1.courses.add(course);
+			System.out.println("Course added to transcript");
+		}
+	}
+	/**Method to remove a course from an individual's transcript
+	 * */
+	public void removeCourseFromTranscript(Course course){
+		if(s1.courses.contains(course)){
+			s1.courses.remove(course);
+			System.out.println("Course Successfully removed");
+		}
+	}
 	/** Imports course information into array of objects from the course file
 	 * @throws Exception
 	 * @see accessDatabase*/
@@ -91,7 +114,7 @@ public class User {
 			ResultSet rs = stmt.executeQuery(query); //IMPORTANT LINE OF CODE!!!!!
 
 			// iterate through the java resultset
-			int i =0;
+			int i = 0;
 			while (rs.next()){//Genius piece of code - this will be extremely handy when we need to import and export information from the database
 				int id = rs.getInt("id");
 				String name = rs.getString("courseName");
