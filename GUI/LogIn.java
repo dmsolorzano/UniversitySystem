@@ -13,6 +13,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import system.Admin;
+import system.Student;
+import system.User;
+
 /*
 	LogIn Class searches a username and password pair in the 
 	database and determines if they correspond to an existing user.
@@ -29,6 +33,10 @@ public class LogIn extends SystemGUI{
 	private JPanel p, center;
 	private JButton logInButton, signUpButton;
 	private GridBagConstraints gc;
+	Admin temp = Admin.getInstance();
+	Student s1 = new Student(0, "Darren", "user", "pass");
+	//Admin a = new Admin(0, null, null, null);
+
  	
  	public LogIn(){
  		
@@ -92,7 +100,15 @@ public class LogIn extends SystemGUI{
 		{
     		public void actionPerformed(ActionEvent e)
     		{
-        		System.out.println("Login Button Pressed");		// TODO Erase sysout
+        		System.out.println("Login Button Pressed");	// TODO Erase sysout
+        		
+					try {
+						s1.logIn();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
         		frame.getContentPane().removeAll();
         		new HomePage(frame);
     		}

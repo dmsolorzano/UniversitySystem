@@ -42,12 +42,12 @@ public class ManPage extends SystemGUI{
 	ButtonGroup bGroup;
 	GridBagConstraints gc;
 	JTable searchTable;
-	static User user = new User();
+	//static User user = new User();
 	//Course [] courses = user.exportCourses();
 	Course[] courses;
     {
         try {
-           courses = User.exportCourses();
+           courses = Admin.exportCourses();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -7,6 +7,7 @@ public class AdminTest {
 
 	/** Object to Test the JUnit test **/
 	Student s = new Student(0, null, null, null);
+	//Admin a = new Admin(0, null, null, null);
 	Admin a = Admin.getInstance();
 	Course c = new Course("CS 3331", "arbitarydate", 101);
 	

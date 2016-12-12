@@ -13,9 +13,25 @@ public class Admin extends User {
 	
 	/**Admin Singleton constructor
 	 * */
-	protected Admin(int id, String name, String u, String p) {
+
+	/*public Admin(int id, String name, String u, String p) {
+		super(000001, "Senior Admin", "admin", "admin");
+	}*/
+	private void Admin(){}	// Singleton constructor for Admin
+	
+	public Admin(int id, String name, String u, String p) {
 		super(id, name, u, p);
 	}
+	public static Admin getInstance(){
+		try {
+			Senior.createDatabase();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Senior;
+	}
+	
 	
 	/** Checks if the provided credentials for the Username is correct.
 	 * @returns true if Username is correct, false otherwise

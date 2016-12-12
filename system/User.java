@@ -12,14 +12,14 @@ import java.text.SimpleDateFormat;
  * @author Chris Santos
  * @version 1.6
  * */
-public class User {
+public abstract class User {
 	
 	private int id;
 	private String name;
 	private String username;
 	private String password;
 	private static Course[] courses;
-	private static Admin Senior = new Admin(000001, "Senior Admin", "adminU", "adminP");
+	protected static Admin Senior = new Admin(000001, "Senior Admin", "adminU", "adminP");
 	Student s1;
 	
 	public User(int id, String name, String user, String pass) {
@@ -33,12 +33,9 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	private void Admin(){}	// Singleton constructor for Admin
 	
-	public static Admin getInstance() throws Exception {
-		Senior.createDatabase();
-		return Senior;
-	}
+	
+	
 
 	/*Modifiers and Accessors for User class*/
 	public int getId() {
