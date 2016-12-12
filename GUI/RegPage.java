@@ -1,4 +1,4 @@
-package university_system;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -18,7 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
-import university_system.HomePage.ButtonListener;
+import GUI.HomePage.ButtonListener;
 import system.Course;
 public class RegPage extends SystemGUI{
 

@@ -1,4 +1,4 @@
-package university_system;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -22,7 +22,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import university_system.HomePage.ButtonListener;
+import GUI.HomePage.ButtonListener;
 
 public class CheckPage extends SystemGUI{
 

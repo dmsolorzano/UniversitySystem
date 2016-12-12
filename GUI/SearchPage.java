@@ -1,4 +1,4 @@
-package university_system;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -25,7 +25,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import university_system.HomePage.ButtonListener;
+
+import GUI.HomePage.ButtonListener;
 
 
 public class SearchPage extends SystemGUI{

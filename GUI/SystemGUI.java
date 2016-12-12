@@ -1,4 +1,4 @@
-package university_system;
+package GUI;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

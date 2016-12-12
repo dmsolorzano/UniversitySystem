@@ -1,4 +1,4 @@
-package university_system;
+package GUI;
 
 //import org.omg.CORBA.PUBLIC_MEMBER;
 
