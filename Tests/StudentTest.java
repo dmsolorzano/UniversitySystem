@@ -1,10 +1,11 @@
+package Tests;
 import static org.junit.Assert.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+import system.*;
 public class StudentTest {
 
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();

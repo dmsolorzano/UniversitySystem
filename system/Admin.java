@@ -1,3 +1,4 @@
+package system;
 import java.util.*;
 import java.sql.*;
 
@@ -10,14 +11,16 @@ import java.sql.*;
 public class Admin extends User {
 	static Scanner scn = new Scanner(System.in);
 	
-	private Admin(int id, String name, String u, String p) {
-		super(000001, "Senior Admin", "admin", "admin");
+	/**Admin Singleton constructor
+	 * */
+	protected Admin(int id, String name, String u, String p) {
+		super(id, name, u, p);
 	}
 	
 	/** Checks if the provided credentials for the Username is correct.
 	 * @returns true if Username is correct, false otherwise
 	 * */
-	public boolean accessUsername(String info) throws Exception {
+	public boolean accessUsername(String info) throws Exception { //Idea? Move this up to User and create abstract login methods
 		String found = "";
 		
 		Statement stmt = accessDatabase().createStatement();
@@ -44,7 +47,7 @@ public class Admin extends User {
 		String query = "select password from student where password = '"+info+"';";
 		ResultSet rs = stmt.executeQuery(query);
 
-		if (rs.next()){
+		if (rs.next()){ // Could break in future
 			found = rs.getString(1);
 		}
 		
@@ -117,7 +120,7 @@ public class Admin extends User {
 	public Object createAccount() throws Exception{	//We could maybe separate this into two methods(createStudent(), createFaculty())
 		Statement stmt = accessDatabase().createStatement();
 		Student nwStudent = null;
-		Faculty nwFaculty = null;
+		//Faculty nwFaculty = null;
 		String ans, id, fName, lName = "";
 		
 		System.out.print("Are you a Student or Faculty? ");
@@ -139,23 +142,26 @@ public class Admin extends User {
 			lName = scn.nextLine();
 			stmt.execute("use university");
 			stmt.execute("insert into faculty values ("+id+", '"+fName+"', '"+lName+"');");
-			nwFaculty = new Faculty(Integer.valueOf(id), fName+" "+lName, "", "");
-			return nwFaculty;
+			//nwFaculty = new Faculty(Integer.valueOf(id), fName+" "+lName, "", "");
+			//return nwFaculty;
+			return null;
 		}
 		return null; 
 	}
+	
 	/** Method to create connection to the MySQL database
 	 * @returns returns the Connection that was created.
 	 * */
 	public Connection accessDatabase() throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con=DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306","root","root_3478");
+				"jdbc:mysql://localhost:3306","root","root");
 				//"jdbc:mysql://172.19.154.137:3306","username","password");
 		Statement stmt = con.createStatement();
 		stmt.execute("use university");
 		return con;
 	}
+	
 	/** Method that will create the initial database with basic tables and pre-set values
 	 * @see accessDatabase
 	 * */

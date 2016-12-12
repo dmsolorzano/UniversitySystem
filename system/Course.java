@@ -1,3 +1,8 @@
+package system;
+
+import java.io.*;
+
+import java.util.*;
 /** The course class which represents types of courses and their relative fields
  * @author Darren Solorzano
  * @author Reynaldo Martinez
@@ -13,12 +18,13 @@ public class Course {
 
 	/** Course constructor
 	 * @param courseName holds the name of the course
-	 * @param startDate holds the date which class is held
+	 * @param date holds the date which class is held
 	 * @param cRN holds the course reference number(CRN)
 	 * */
-	public Course(String courseName, String startDate, int cRN) {//We need to fix these course parameters
+	public Course(String courseName, String date, int cRN) {
+		super();
 		this.courseName = courseName;
-		this.date = startDate;
+		this.date = date;
 		this.cRN = cRN;
 	}
 

@@ -1,3 +1,5 @@
+package system;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -17,7 +19,7 @@ public class User {
 	private String username;
 	private String password;
 	private static Course[] courses;
-	private static Admin adm;
+	private static Admin Senior = new Admin(00001, "Senior Admin", "adminU", "adminP");
 
 	public User(int id, String name, String user, String pass) {
 		this.setId(id);
@@ -28,8 +30,8 @@ public class User {
 	
 	private void Admin(){}	// Singleton constructor for Admin
 	
-	protected  static Admin getInstance(){
-		return adm;
+	public static Admin getInstance(){ //changed to public, don't know if it has to be protected to work
+		return Senior;
 	}
 
 	/*Modifiers and Accessors for User class*/
@@ -57,10 +59,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public boolean logIn() throws Exception {
-		if (adm.accessUsername(username) == true){
-			if (adm.accessPassword(password) == true){
+	// Is this for admin only? Student is also able to use it
+	public boolean logIn() throws Exception { 
+		if (Senior.accessUsername(username) == true){
+			if (Senior.accessPassword(password) == true){
 				return true;
 			} else {
 				System.out.println("Incorrect Password. Try Again.");
@@ -71,6 +73,7 @@ public class User {
 			return false;
 		}
 	}
+	
 	/** Imports course information into array of objects from the course file
 	 * @throws Exception
 	 * @see accessDatabase*/
@@ -78,7 +81,7 @@ public class User {
 		Admin temp = Admin.getInstance();
 		courses = new Course[100];
 		try {
-			temp.accessDatabase();
+			temp.accessDatabase(); // create connection
 			Statement stmt = temp.accessDatabase().createStatement();
 			// if you only need a few columns, specify them by name instead of using "*"
 			String query = "SELECT * FROM course";
@@ -97,11 +100,12 @@ public class User {
 				String date = formatter.format(startDate);
 				// print the results
 				//System.out.format("%s, %s, %s,\n", id, name, startDate);
-				Course course = new Course(name, date, id);
+				Course course = new Course(name, date, id); // different fields
 				courses[i]=course;
 				i++;
 			}
 		} catch (Exception e){}
 		return courses;
 	}
+	
 }
