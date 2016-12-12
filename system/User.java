@@ -20,6 +20,7 @@ public class User {
 	private String password;
 	private static Course[] courses;
 	private static Admin Senior = new Admin(000001, "Senior Admin", "adminU", "adminP");
+	Student s1;
 	
 	public User(int id, String name, String user, String pass) {
 		this.setId(id);
@@ -64,7 +65,23 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	/** Method to add a course to an individual student's Transcript
+	 * */
+	public void addCourseToTranscript(Course course){
+		if(!s1.courses.contains(course)){
+			s1.courses.add(course);
+			System.out.println("Course added to transcript");
+		}
+	}
+	/**Method to remove a course from an individual's transcript
+	 * */
+	public void removeCourseFromTranscript(Course course){
+		if(s1.courses.contains(course)){
+			s1.courses.remove(course);
+			System.out.println("Course Successfully removed");
+		}
+	}
 	public boolean logIn() throws Exception {
 		if (Senior.accessUsername(username) == true){
 			if (Senior.accessPassword(password) == true){
