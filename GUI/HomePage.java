@@ -15,7 +15,7 @@ public class HomePage extends SystemGUI{
 	JButton regButton, checkButton, manageButton, searchButton, teachButton;
 	GridBagConstraints gc;
 
-	public HomePage(Student s, Admin a){ //Constructor to access student and Admin
+	public HomePage(Student s, Admin a) throws Exception{ //Constructor to access student and Admin
 		s = new Student(s.getId(), s.getName(), s.getUsername(), a.getPassword());
 		a = Admin.getInstance();
 	}
