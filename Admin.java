@@ -51,7 +51,7 @@ public class Admin extends User {
 		if (found.equals(info)){
 			return true;
 		} else {
-			return false;
+			return false;// 
 		}
 	}
 
