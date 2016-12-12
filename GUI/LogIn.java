@@ -14,8 +14,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import system.Admin;
-import system.Student;
-import system.User;
 
 /*
 	LogIn Class searches a username and password pair in the 
@@ -26,19 +24,17 @@ import system.User;
 */
 
 public class LogIn extends SystemGUI{
-	//User userType;
 	JFrame frame;
-	private JPasswordField pw;
-	private JTextField text;
+	private static JPasswordField pass = new JPasswordField(15);
+	private static JTextField user = new JTextField(15);
 	private JPanel p, center;
 	private JButton logInButton, signUpButton;
 	private GridBagConstraints gc;
-	Admin temp = Admin.getInstance();
-	Student s1 = new Student(0, "Darren", "user", "pass");
-	//Admin a = new Admin(0, null, null, null);
-
+	private static Admin adm = Admin.getInstance();
+	private String Username;
+	private String Password;
  	
- 	public LogIn(){
+	public LogIn(){
  		
 		frame = new JFrame("Login - The University of Texas at El Paso");
 		frame.setSize(600,250);
@@ -65,16 +61,16 @@ public class LogIn extends SystemGUI{
 		/* Creates central panel content */
 		p = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		addToPanel(p, new JLabel("USERNAME"));
-		text = new JTextField(15);
-		addToPanel(p, text);
+		addToPanel(p, user);
+		Username = user.getName();
 		gc = bagConstraints(0,0,1,1,GridBagConstraints.BOTH,
 				GridBagConstraints.CENTER,1,1,40,0,0,0);
 		center.add(p, gc);
 		
 		p = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		addToPanel(p, new JLabel("PASSWORD"));
-		pw = new JPasswordField(15);
-		addToPanel(p, pw);
+		addToPanel(p, pass);
+		Password = pass.getName();
 		gc = bagConstraints(0,1,1,1,GridBagConstraints.BOTH,
 				GridBagConstraints.CENTER,1,1,0,0,45,0);
 		center.add(p, gc);
@@ -91,28 +87,35 @@ public class LogIn extends SystemGUI{
 		frame.setVisible(true); // Sets frame to visible
 		
 		
-		/**---------------------------------------------------------------
+		/* ---------------------------------------------------------------
 		 * --------- Action Handlers ------------------------------------- 
 		 * ---------------------------------------------------------------
 		 */
 		
 		logInButton.addActionListener( new ActionListener()
-		{
-    		public void actionPerformed(ActionEvent e)
-    		{
-        		System.out.println("Login Button Pressed");	// TODO Erase sysout
-        		
-					try {
-						s1.logIn();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				
-        		frame.getContentPane().removeAll();
-        		new HomePage(frame);
-    		}
-		});
+			{
+		   		public void actionPerformed(ActionEvent e)
+		   		{
+		   			try {
+		   				if (correctUsername(Username) == true){
+		   					System.out.println("Correct Username");
+		   					if (correctPassword(Password) == true){
+		   						System.out.println("Correct Password");
+		  						frame.getContentPane().removeAll();
+				        		new HomePage(frame);
+		   					} else {
+		   						System.out.println("Incorret Password");
+		   						return;
+		   					}
+		   				} else {
+		   					System.out.println("Incorrect Username");
+		   					return;
+		   				}
+		   			} catch (Exception i) {
+		   				System.out.println(i);
+		   			}
+		   		}
+			});
 		
 		signUpButton.addActionListener( new ActionListener()
 		{
@@ -125,6 +128,15 @@ public class LogIn extends SystemGUI{
 		});
 
  	}
+ 	
+ 	public static boolean correctUsername(String username) throws Exception {
+ 		return adm.accessUsername(user.getText());
+ 	}
+ 	
+ 	@SuppressWarnings("deprecation")
+	public boolean correctPassword(String password) throws Exception {
+ 		return adm.accessPassword(pass.getText());
+ 	}
 		
 	public static void main(String[] args){
 		  SwingUtilities.invokeLater(new Runnable() {
@@ -134,7 +146,4 @@ public class LogIn extends SystemGUI{
 	            }
 	        });
 	}
-
-
-
 }
