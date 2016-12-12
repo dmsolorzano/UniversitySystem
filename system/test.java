@@ -1,5 +1,6 @@
 package system;
 
+
 /** The test class is used to run simulations to ensure the system is working as intended
  * @author Darren Solorzano
  * @author Reynaldo Martinez
@@ -9,15 +10,11 @@ package system;
 public class test{
 	public static void main(String[] args) throws Exception {
 		try {
-			Admin temp = Admin.getInstance();
-			User u = new User(0, null, "adminU", "adminP");
-			Student s = new Student(0, null, "adminU", "adminP");
-			Course c = new Course(null, null, 0);
-			// TODO
-			temp.createDatabase();
+			
+			//TODO To test your code stubs
 			
 		} catch (Exception e){
-			System.out.println(e);  // Will catch and print any exception you had
+			System.out.println(e);  // Will catch and print the exception you had
 		}
 	}
 }
